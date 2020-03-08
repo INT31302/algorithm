@@ -12,8 +12,7 @@ public class Main {
             else if (temp.charAt(i) == ')') {
                 if (stack.size() == 0)
                     return "NO";
-                if (stack.pop() != ')')
-                    return "NO";
+                stack.pop();
             }
         }
         if (stack.size() == 0)
