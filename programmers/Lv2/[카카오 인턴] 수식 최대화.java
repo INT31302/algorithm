@@ -3,7 +3,7 @@ import java.util.ArrayList;
 public class Solution {
     static ArrayList<String> oper_combination = new ArrayList<>();
 
-    public static void combination(char[] operator, char[] output, boolean[] isVisited, int depth, int r) {
+    public static void permutation(char[] operator, char[] output, boolean[] isVisited, int depth, int r) {
         if (r == depth) {
             StringBuilder sb = new StringBuilder();
             for (char c : output) {
@@ -16,7 +16,7 @@ public class Solution {
             if (!isVisited[i]) {
                 isVisited[i] = true;
                 output[depth] = operator[i];
-                combination(operator, output, isVisited, depth + 1, r);
+                permutation(operator, output, isVisited, depth + 1, r);
                 isVisited[i] = false;
             }
         }
@@ -67,7 +67,7 @@ public class Solution {
         }
         numbers.add(Long.parseLong(sb.toString()));
         int length = temp.length();
-        combination(temp.toString().toCharArray(), new char[length], new boolean[length], 0, length);
+        permutation(temp.toString().toCharArray(), new char[length], new boolean[length], 0, length);
         for (String s : oper_combination) {
             long sum = 0;
             ArrayList<Character> copied_operators = (ArrayList<Character>) operators.clone();
