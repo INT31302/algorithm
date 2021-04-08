@@ -20,7 +20,7 @@ public class Solution {
         }
     }
 
-    static class WordPoint{
+    static class WordPoint {
         Point startPoint;
         Point endPoint;
 
@@ -34,43 +34,39 @@ public class Solution {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
             WordPoint wordPoint = (WordPoint) o;
-            if (this.startPoint.x == wordPoint.startPoint.x &&
-                    this.startPoint.y == wordPoint.startPoint.y &&
-                    this.endPoint.x == wordPoint.endPoint.x &&
-                    this.endPoint.y == wordPoint.endPoint.y) {
-                return true;
-            } else if (this.startPoint.x == wordPoint.endPoint.x &&
-                    this.startPoint.y == wordPoint.endPoint.y &&
-                    this.endPoint.x == wordPoint.startPoint.x &&
-                    this.endPoint.y == wordPoint.startPoint.y) {
-                return true;
-            } else if (this.endPoint.x == wordPoint.startPoint.x &&
-                    this.endPoint.y == wordPoint.startPoint.y &&
-                    this.startPoint.x == wordPoint.endPoint.x &&
-                    this.startPoint.y == wordPoint.endPoint.y) {
-                return true;
-            } else {
-                return false;
-            }
+            if (startPoint.x == wordPoint.startPoint.x &&
+                    startPoint.y == wordPoint.startPoint.y &&
+                    endPoint.x == wordPoint.endPoint.x &&
+                    endPoint.y == wordPoint.endPoint.y) return true;
+            else return false;
         }
 
         @Override
         public int hashCode() {
-            return Objects.hash(startPoint, endPoint);
+            return Objects.hash(startPoint.x, startPoint.y, endPoint.x, endPoint.y);
         }
     }
 
     static void dfs(int startX, int startY, int endX, int endY, int depth, char di, StringBuilder s) {
         if (depth == len) {
-            StringBuilder temp = new StringBuilder(s);
-            temp.reverse();
+            StringBuilder reverseS = new StringBuilder(s);
+            reverseS.reverse();
 
-            if (s.toString().equals(temp.toString())) {
+            if (s.toString().equals(reverseS.toString())) {
+                if (startX == endX) {
+                    if (startY > endY) {
+                        int temp = startY;
+                        startY = endY;
+                        endY = temp;
+                    }
+                } else {
+                    if (startX > endX) {
+                        int temp = startX;
+                        startX = endX;
+                        endX = temp;
+                    }
+                }
                 result.add(new WordPoint(new Point(startX, startY), new Point(endX, endY)));
-                System.out.println(s.toString());
-                System.out.println(startX + " " + startY + " " + endX + " " + endY);
-
-                System.out.println();
             }
             return;
         }
@@ -96,7 +92,7 @@ public class Solution {
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-        for (int i = 0; i < 1; i++) {
+        for (int i = 0; i < 10; i++) {
             bw.write("#" + (i + 1) + " ");
             len = Integer.parseInt(br.readLine());
             arr = new char[8][8];
@@ -118,7 +114,6 @@ public class Solution {
                     dfs(j, k, j, k, 1, 'd', new StringBuilder(s));
                 }
             }
-
             bw.write(result.size() + "\n");
         }
         bw.close();
